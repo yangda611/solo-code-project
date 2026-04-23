@@ -1,0 +1,17 @@
+{
+  "name": "pixel-fps-game",
+  "version": "1.0.0",
+  "description": "像素风格第一人称射击游戏",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

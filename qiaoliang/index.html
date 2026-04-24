@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桥梁建造模拟 - 工程蓝图版</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="blueprint-theme">
+    <div id="game-container">
+        <div id="top-bar">
+            <div class="level-info">
+                <span id="level-name">第1关: 跨越峡谷</span>
+                <span id="level-objective">目标: 建造一座能让车辆通过的桥</span>
+            </div>
+            <div class="resource-info">
+                <div class="resource-item">
+                    <span class="label">预算:</span>
+                    <span id="budget-display">$0 / $10000</span>
+                </div>
+                <div class="resource-item">
+                    <span class="label">重量:</span>
+                    <span id="weight-display">0 kg</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-area">
+            <div id="left-panel">
+                <div class="panel-section">
+                    <h3>建造工具</h3>
+                    <div class="tool-buttons">
+                        <button class="tool-btn active" data-tool="select" title="选择 (V)">
+                            <span class="icon">✓</span>
+                            <span class="label">选择</span>
+                        </button>
+                        <button class="tool-btn" data-tool="wood" title="木材 (1)">
+                            <span class="icon">▬</span>
+                            <span class="label">木材</span>
+                            <span class="cost">$100</span>
+                        </button>
+                        <button class="tool-btn" data-tool="steel" title="钢筋 (2)">
+                            <span class="icon">═</span>
+                            <span class="label">钢筋</span>
+                            <span class="cost">$300</span>
+                        </button>
+                        <button class="tool-btn" data-tool="cable" title="绳索 (3)">
+                            <span class="icon">〰</span>
+                            <span class="label">绳索</span>
+                            <span class="cost">$50</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>测试控制</h3>
+                    <div class="test-controls">
+                        <button id="btn-test" class="primary-btn">
+                            <span class="icon">▶</span> 开始测试
+                        </button>
+                        <button id="btn-stop" class="danger-btn" disabled>
+                            <span class="icon">⏹</span> 停止测试
+                        </button>
+                        <div class="speed-control">
+                            <label>播放速度:</label>
+                            <input type="range" id="speed-slider" min="0.1" max="3" step="0.1" value="1">
+                            <span id="speed-display">1x</span>
+                        </div>
+                        <button id="btn-slowmo" class="secondary-btn">
+                            <span class="icon">🐌</span> 慢镜头
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>视图选项</h3>
+                    <div class="view-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-heatmap" checked>
+                            <span>应力热力图</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-forces" checked>
+                            <span>受力箭头</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-grid" checked>
+                            <span>网格吸附</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-nodes" checked>
+                            <span>节点标记</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="canvas-container">
+                <canvas id="game-canvas"></canvas>
+                <div id="status-bar">
+                    <span id="status-text">准备就绪 - 点击选择工具开始建造</span>
+                    <span id="coordinates">X: 0, Y: 0</span>
+                </div>
+            </div>
+
+            <div id="right-panel">
+                <div class="panel-section">
+                    <h3>关卡信息</h3>
+                    <div id="level-details">
+                        <div class="detail-item">
+                            <span class="detail-label">类型:</span>
+                            <span id="detail-type">峡谷</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">跨度:</span>
+                            <span id="detail-span">200m</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">预算:</span>
+                            <span id="detail-budget">$10,000</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">限重:</span>
+                            <span id="detail-weight">无限制</span>
+                        </div>
+                        <div class="detail-item special" id="detail-special">
+                            <span class="detail-label">特殊挑战:</span>
+                            <span id="detail-special-value">无</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>选中元素</h3>
+                    <div id="selection-info" class="empty-info">
+                        <p>未选中任何元素</p>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>统计数据</h3>
+                    <div id="statistics">
+                        <div class="stat-item">
+                            <span class="stat-label">节点数:</span>
+                            <span id="stat-nodes">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">连接件数:</span>
+                            <span id="stat-beams">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">木材:</span>
+                            <span id="stat-wood">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">钢筋:</span>
+                            <span id="stat-steel">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">绳索:</span>
+                            <span id="stat-cable">0</span>
+                        </div>
+                        <div class="stat-item highlight">
+                            <span class="stat-label">最大应力:</span>
+                            <span id="stat-max-stress">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bottom-bar">
+            <div class="action-buttons">
+                <button id="btn-undo" class="secondary-btn" disabled>
+                    <span class="icon">↩</span> 撤销
+                </button>
+                <button id="btn-redo" class="secondary-btn" disabled>
+                    <span class="icon">↪</span> 重做
+                </button>
+                <button id="btn-delete" class="danger-btn" disabled>
+                    <span class="icon">✕</span> 删除
+                </button>
+                <button id="btn-clear" class="danger-btn">
+                    <span class="icon">🗑</span> 清除全部
+                </button>
+            </div>
+            <div class="level-buttons">
+                <button id="btn-prev-level" class="secondary-btn" disabled>
+                    <span class="icon">◀</span> 上一关
+                </button>
+                <button id="btn-restart" class="secondary-btn">
+                    <span class="icon">🔄</span> 重新开始
+                </button>
+                <button id="btn-next-level" class="secondary-btn">
+                    <span class="icon">▶</span> 下一关
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay" class="hidden">
+        <div id="result-modal" class="modal hidden">
+            <div class="modal-header">
+                <h2 id="result-title">测试结果</h2>
+            </div>
+            <div class="modal-body">
+                <div id="result-status" class="result-success">
+                    <span class="icon">✓</span>
+                    <span id="result-text">桥梁测试成功！</span>
+                </div>
+                <div class="result-stats">
+                    <div class="result-stat">
+                        <span class="label">建造费用:</span>
+                        <span id="result-cost">$8,500</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="label">桥梁重量:</span>
+                        <span id="result-weight">1,200 kg</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="label">最大应力:</span>
+                        <span id="result-stress">75%</span>
+                    </div>
+                </div>
+                <div id="rating-section">
+                    <div class="rating-label">造价评价:</div>
+                    <div id="rating-stars" class="rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star empty">★</span>
+                        <span class="star empty">★</span>
+                    </div>
+                    <div id="rating-text" class="rating-text">良好 - 还有优化空间</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-watch-replay" class="secondary-btn">
+                    <span class="icon">🎬</span> 观看回放
+                </button>
+                <button id="btn-retry" class="primary-btn">
+                    <span class="icon">🔄</span> 重试
+                </button>
+                <button id="btn-next" class="primary-btn">
+                    <span class="icon">▶</span> 下一关
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/core/Vector2.js"></script>
+    <script src="js/core/MathUtil.js"></script>
+    <script src="js/physics/Node.js"></script>
+    <script src="js/physics/Beam.js"></script>
+    <script src="js/physics/Material.js"></script>
+    <script src="js/physics/PhysicsEngine.js"></script>
+    <script src="js/game/Vehicle.js"></script>
+    <script src="js/game/Level.js"></script>
+    <script src="js/game/Bridge.js"></script>
+    <script src="js/render/Renderer.js"></script>
+    <script src="js/render/HeatmapRenderer.js"></script>
+    <script src="js/ui/UIManager.js"></script>
+    <script src="js/ui/InputHandler.js"></script>
+    <script src="js/util/Recorder.js"></script>
+    <script src="js/util/History.js"></script>
+    <script src="js/config/Levels.js"></script>
+    <script src="js/config/Settings.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

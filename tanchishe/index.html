@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流光贪吃蛇</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>流光贪吃蛇</h1>
+            <div class="score-board">
+                <div class="score">
+                    <span>得分: </span>
+                    <span id="score">0</span>
+                </div>
+                <div class="high-score">
+                    <span>最高分: </span>
+                    <span id="high-score">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-wrapper">
+            <canvas id="gameCanvas" width="600" height="600"></canvas>
+            <div id="game-over" class="game-over hidden">
+                <h2>游戏结束</h2>
+                <p>得分: <span id="final-score">0</span></p>
+                <button id="restart-btn">重新开始</button>
+            </div>
+            <div id="start-screen" class="start-screen">
+                <h2>开始游戏</h2>
+                <p>使用方向键或WASD控制蛇的移动</p>
+                <p>吃到食物后蛇会增长，并有流光动画效果</p>
+                <button id="start-btn">开始游戏</button>
+            </div>
+        </div>
+        
+        <div class="game-controls">
+            <div class="control-buttons">
+                <button id="pause-btn">暂停</button>
+                <button id="speed-up-btn">加速</button>
+                <button id="speed-down-btn">减速</button>
+            </div>
+            <div class="mobile-controls">
+                <div class="control-row">
+                    <button class="control-btn" data-direction="up">↑</button>
+                </div>
+                <div class="control-row">
+                    <button class="control-btn" data-direction="left">←</button>
+                    <button class="control-btn" data-direction="down">↓</button>
+                    <button class="control-btn" data-direction="right">→</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

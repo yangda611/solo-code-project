@@ -1,0 +1,210 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --matrix-bg: #000000;
+  --matrix-green: #00ff41;
+  --matrix-green-dark: #003b00;
+  --matrix-green-light: #7fff7f;
+  --matrix-cyan: #00ffff;
+  --matrix-red: #ff0040;
+  --matrix-yellow: #ffff00;
+  --matrix-orange: #ff8c00;
+  --matrix-purple: #9932cc;
+  --matrix-gray: #1a1a1a;
+  --matrix-gray-light: #2a2a2a;
+  --matrix-text: #00ff41;
+  --matrix-text-secondary: #008b23;
+  --matrix-border: #003b00;
+  --matrix-glow: 0 0 10px rgba(0, 255, 65, 0.5);
+  --matrix-font: 'Courier New', 'Lucida Console', Monaco, monospace;
+}
+
+@font-face {
+  font-family: 'Matrix';
+  src: local('Courier New');
+}
+
+html, body {
+  background-color: var(--matrix-bg);
+  color: var(--matrix-text);
+  font-family: var(--matrix-font);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--matrix-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--matrix-green-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--matrix-green);
+}
+
+::selection {
+  background: var(--matrix-green);
+  color: var(--matrix-bg);
+}
+
+.matrix-border {
+  border: 1px solid var(--matrix-border);
+  box-shadow: var(--matrix-glow);
+}
+
+.matrix-text {
+  color: var(--matrix-text);
+  text-shadow: 0 0 5px var(--matrix-green);
+}
+
+.matrix-text-glow {
+  text-shadow: 0 0 10px var(--matrix-green), 0 0 20px var(--matrix-green), 0 0 30px var(--matrix-green);
+}
+
+.matrix-input {
+  background: var(--matrix-bg);
+  border: 1px solid var(--matrix-border);
+  color: var(--matrix-text);
+  font-family: var(--matrix-font);
+  padding: 8px 12px;
+  outline: none;
+}
+
+.matrix-input:focus {
+  border-color: var(--matrix-green);
+  box-shadow: var(--matrix-glow);
+}
+
+.matrix-button {
+  background: var(--matrix-bg);
+  border: 1px solid var(--matrix-green);
+  color: var(--matrix-text);
+  font-family: var(--matrix-font);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.matrix-button:hover {
+  background: var(--matrix-green-dark);
+  box-shadow: var(--matrix-glow);
+}
+
+.matrix-button:active {
+  background: var(--matrix-green);
+  color: var(--matrix-bg);
+}
+
+.matrix-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.matrix-panel {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid var(--matrix-border);
+  box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.matrix-panel-header {
+  background: linear-gradient(180deg, var(--matrix-green-dark) 0%, var(--matrix-bg) 100%);
+  border-bottom: 1px solid var(--matrix-border);
+  padding: 8px 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.matrix-table th {
+  background: var(--matrix-green-dark);
+  border: 1px solid var(--matrix-border);
+  padding: 8px;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.matrix-table td {
+  border: 1px solid var(--matrix-border);
+  padding: 8px;
+}
+
+.matrix-table tr:hover {
+  background: rgba(0, 255, 65, 0.1);
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes matrix-rain {
+  0% { transform: translateY(-100%); opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.positive {
+  color: var(--matrix-green);
+}
+
+.negative {
+  color: var(--matrix-red);
+}
+
+.warning {
+  color: var(--matrix-yellow);
+}
+
+.info {
+  color: var(--matrix-cyan);
+}
+
+.accent {
+  color: var(--matrix-purple);
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}

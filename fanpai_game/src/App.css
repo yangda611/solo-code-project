@@ -1,0 +1,256 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.game-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-info {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.reset-btn {
+  padding: 10px 20px;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.reset-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  perspective: 1000px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.card-wrapper {
+  width: 100%;
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  transform-origin: center;
+}
+
+.card-wrapper.flipped .card-inner,
+.card-wrapper.matched .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-wrapper.matched {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0s 0.6s;
+}
+
+.card-wrapper.match-animation {
+  animation: matchSuccess 1s ease-in-out forwards;
+  z-index: 100;
+}
+
+@keyframes matchSuccess {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-front {
+  background: linear-gradient(145deg, #ff6b6b, #feca57);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.card-back {
+  background: linear-gradient(145deg, #4ecdc4, #44a08d);
+  transform: rotateY(180deg);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.question-mark {
+  font-size: 2.5rem;
+  color: white;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.emoji {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.win-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.win-content {
+  background: white;
+  padding: 40px 60px;
+  border-radius: 20px;
+  text-align: center;
+  animation: popIn 0.5s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.win-content h2 {
+  font-size: 2.5rem;
+  color: #667eea;
+  margin-bottom: 15px;
+}
+
+.win-content p {
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.play-again-btn {
+  padding: 15px 40px;
+  background: linear-gradient(145deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.play-again-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+}
+
+@media (max-width: 600px) {
+  .cards-grid {
+    gap: 10px;
+  }
+  
+  .question-mark {
+    font-size: 2rem;
+  }
+  
+  .emoji {
+    font-size: 2.5rem;
+  }
+  
+  .game-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .game-info {
+    gap: 15px;
+    font-size: 1rem;
+  }
+  
+  .win-content {
+    padding: 30px 40px;
+    margin: 20px;
+  }
+  
+  .win-content h2 {
+    font-size: 2rem;
+  }
+}

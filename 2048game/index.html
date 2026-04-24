@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game">
+        <div class="header">
+            <h1 class="title">2048</h1>
+            <div class="score-container">
+                <div class="score-box">
+                <div class="score-label">分数</div>
+                <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-box">
+                <div class="score-label">最高</div>
+                <div class="score-value" id="bestScore">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="game-info">
+            <p>使用方向键移动方块，相同数字的方块相撞会合并。</p>
+            <button id="newGame">新游戏</button>
+        </div>
+        <div class="game-container">
+            <div class="grid">
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                </div>
+            </div>
+            <div class="tile-container" id="tileContainer"></div>
+        </div>
+        <div class="game-message" id="gameMessage">
+            <p id="messageText"></p>
+            <button id="continueGame">继续游戏</button>
+            <button id="tryAgain">再来一局</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>

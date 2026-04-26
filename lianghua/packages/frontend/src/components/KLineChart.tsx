@@ -19,7 +19,7 @@ export function KLineChart({ height = 400 }: ChartProps) {
   const bollMiddleRef = useRef<ISeriesApi<'Line'> | null>(null);
   const bollLowerRef = useRef<ISeriesApi<'Line'> | null>(null);
 
-  const { klineHistory, selectedInterval, tick } = useStore();
+  const { klineHistory, kline, selectedInterval, tick } = useStore();
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -100,32 +100,35 @@ export function KLineChart({ height = 400 }: ChartProps) {
   }, []);
 
   useEffect(() => {
-    if (!candlestickSeriesRef.current || !volumeSeriesRef.current || klineHistory.length === 0) return;
+    if (!candlestickSeriesRef.current || !volumeSeriesRef.current) return;
 
-    const candlestickData: CandlestickData<Time>[] = klineHistory.map((kline: KLine) => ({
-      time: (kline.timestamp / 1000) as Time,
-      open: kline.open,
-      high: kline.high,
-      low: kline.low,
-      close: kline.close,
+    const historyToUse = klineHistory.length > 0 ? klineHistory : (kline ? [kline] : []);
+    if (historyToUse.length === 0) return;
+
+    const candlestickData: CandlestickData<Time>[] = historyToUse.map((k: KLine) => ({
+      time: (k.timestamp / 1000) as Time,
+      open: k.open,
+      high: k.high,
+      low: k.low,
+      close: k.close,
     }));
 
-    const volumeData = klineHistory.map((kline: KLine) => ({
-      time: (kline.timestamp / 1000) as Time,
-      value: kline.volume,
-      color: kline.close >= kline.open ? '#00ff4155' : '#ff004055',
+    const volumeData = historyToUse.map((k: KLine) => ({
+      time: (k.timestamp / 1000) as Time,
+      value: k.volume,
+      color: k.close >= k.open ? '#00ff4155' : '#ff004055',
     }));
 
     candlestickSeriesRef.current.setData(candlestickData);
     volumeSeriesRef.current.setData(volumeData);
 
-    calculateAndSetIndicators(klineHistory);
-  }, [klineHistory, selectedInterval]);
+    calculateAndSetIndicators(historyToUse);
+  }, [klineHistory, kline, selectedInterval]);
 
   useEffect(() => {
     if (!candlestickSeriesRef.current || !tick) return;
 
-    const lastKline = klineHistory[klineHistory.length - 1];
+    const lastKline = klineHistory[klineHistory.length - 1] || kline;
     if (lastKline) {
       const midPrice = (tick.bid + tick.ask) / 2;
       const time = (lastKline.timestamp / 1000) as Time;
@@ -138,7 +141,7 @@ export function KLineChart({ height = 400 }: ChartProps) {
         close: midPrice,
       });
     }
-  }, [tick, klineHistory]);
+  }, [tick, klineHistory, kline]);
 
   const calculateAndSetIndicators = (klines: KLine[]) => {
     if (!candlestickSeriesRef.current) return;

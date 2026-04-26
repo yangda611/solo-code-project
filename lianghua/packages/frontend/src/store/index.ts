@@ -88,10 +88,23 @@ export const useStore = create<AppState>((set) => ({
 
   setConnected: (connected) => set({ connected }),
   setTick: (tick) => set({ tick }),
-  setKline: (kline) => set((state) => ({
-    kline,
-    klineHistory: [...state.klineHistory.slice(-499), kline],
-  })),
+  setKline: (kline) => set((state) => {
+    if (kline.interval !== state.selectedInterval) {
+      return { kline };
+    }
+    
+    const existingIndex = state.klineHistory.findIndex(k => k.timestamp === kline.timestamp);
+    let newHistory;
+    
+    if (existingIndex >= 0) {
+      newHistory = [...state.klineHistory];
+      newHistory[existingIndex] = kline;
+    } else {
+      newHistory = [...state.klineHistory.slice(-499), kline];
+    }
+    
+    return { kline, klineHistory: newHistory };
+  }),
   setKlineHistory: (history) => set({ klineHistory: history }),
   setOrderBook: (orderBook) => set({ orderBook }),
   setAccount: (account) => set((state) => ({ 

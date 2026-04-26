@@ -79,6 +79,8 @@ export class KLineAggregator {
       current.close = price;
       current.volume += volume;
     }
+
+    eventBus.publish({ type: 'kline', data: { ...current } });
   }
 
   private finalizeCandle(interval: KLineInterval, candle: KLine): void {

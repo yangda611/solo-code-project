@@ -13,6 +13,8 @@ export class OrderBook {
   private bestBid: number = 0;
   private bestAsk: number = Infinity;
   private symbol: string;
+  private marketMakerBidPrice: number = 0;
+  private marketMakerAskPrice: number = Infinity;
 
   constructor(symbol: string) {
     this.symbol = symbol;
@@ -237,11 +239,51 @@ export class OrderBook {
   updateFromTick(tick: Tick): void {
     if (tick.symbol !== this.symbol) return;
 
-    if (tick.bid > 0 && tick.bid < this.bestAsk) {
-      this.bestBid = tick.bid;
+    if (this.marketMakerBidPrice > 0 && this.bids.has(this.marketMakerBidPrice)) {
+      const level = this.bids.get(this.marketMakerBidPrice);
+      if (level && level.orders.size === 0) {
+        this.bids.delete(this.marketMakerBidPrice);
+      }
     }
-    if (tick.ask > 0 && tick.ask > this.bestBid) {
-      this.bestAsk = tick.ask;
+    if (this.marketMakerAskPrice < Infinity && this.asks.has(this.marketMakerAskPrice)) {
+      const level = this.asks.get(this.marketMakerAskPrice);
+      if (level && level.orders.size === 0) {
+        this.asks.delete(this.marketMakerAskPrice);
+      }
+    }
+
+    if (tick.bid > 0) {
+      if (!this.bids.has(tick.bid)) {
+        this.bids.set(tick.bid, {
+          price: tick.bid,
+          quantity: 1000000,
+          orders: new Map()
+        });
+      } else {
+        const level = this.bids.get(tick.bid)!;
+        if (level.orders.size === 0) {
+          level.quantity = 1000000;
+        }
+      }
+      this.marketMakerBidPrice = tick.bid;
+      this.bestBid = Math.max(this.bestBid, tick.bid);
+    }
+
+    if (tick.ask > 0) {
+      if (!this.asks.has(tick.ask)) {
+        this.asks.set(tick.ask, {
+          price: tick.ask,
+          quantity: 1000000,
+          orders: new Map()
+        });
+      } else {
+        const level = this.asks.get(tick.ask)!;
+        if (level.orders.size === 0) {
+          level.quantity = 1000000;
+        }
+      }
+      this.marketMakerAskPrice = tick.ask;
+      this.bestAsk = this.bestAsk === Infinity ? tick.ask : Math.min(this.bestAsk, tick.ask);
     }
   }
 }

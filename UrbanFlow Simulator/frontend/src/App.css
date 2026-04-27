@@ -1,0 +1,274 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background: #1a1a2e;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  padding: 15px 30px;
+  border-bottom: 2px solid #0f3460;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.app-header h1 {
+  color: #e94560;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.app-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 工具栏样式 */
+.toolbar {
+  width: 280px;
+  background: #16213e;
+  padding: 20px;
+  border-right: 2px solid #0f3460;
+  overflow-y: auto;
+}
+
+.toolbar-section {
+  margin-bottom: 25px;
+}
+
+.toolbar-section h3 {
+  color: #e94560;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #0f3460;
+}
+
+.toolbar-tools {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.tool-btn {
+  padding: 12px 15px;
+  border: 2px solid #0f3460;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tool-btn:hover {
+  border-color: #e94560;
+  background: rgba(233, 69, 96, 0.1);
+}
+
+.tool-btn.active {
+  border-color: #e94560;
+  background: #e94560;
+  color: white;
+}
+
+.simulation-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.control-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.control-btn.start {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+}
+
+.control-btn.start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+}
+
+.control-btn.stop {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  color: white;
+}
+
+.control-btn.stop:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(248, 113, 113, 0.4);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 画布样式 */
+.canvas-container {
+  flex: 1;
+  position: relative;
+  background: #0a0a1a;
+  overflow: hidden;
+}
+
+.canvas-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.traffic-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.canvas-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(22, 33, 62, 0.95);
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid #0f3460;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.canvas-info p {
+  color: #e0e0e0;
+  font-size: 13px;
+  margin: 5px 0;
+}
+
+.canvas-info .tool-name {
+  color: #e94560;
+  font-weight: 600;
+}
+
+/* 数据面板样式 */
+.stats-panel {
+  width: 320px;
+  background: #16213e;
+  padding: 20px;
+  border-left: 2px solid #0f3460;
+  overflow-y: auto;
+}
+
+.stats-panel h3 {
+  color: #e94560;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #0f3460;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #0f3460;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: #e94560;
+  transform: translateY(-2px);
+}
+
+.stat-card .stat-label {
+  color: #888;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.stat-card .stat-value {
+  color: #e0e0e0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.stat-card .stat-unit {
+  color: #888;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.stat-card.positive .stat-value {
+  color: #4ade80;
+}
+
+.stat-card.warning .stat-value {
+  color: #fbbf24;
+}
+
+.stat-card.danger .stat-value {
+  color: #f87171;
+}
+
+.progress-bar {
+  margin-top: 10px;
+  height: 8px;
+  background: #0f3460;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.low {
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+}
+
+.progress-fill.medium {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.progress-fill.high {
+  background: linear-gradient(90deg, #f87171, #ef4444);
+}
+
+/* 动画效果 */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.5); }
+}

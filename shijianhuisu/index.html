@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间回溯 - 2D解谜游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>时间回溯</h1>
+            <div class="game-info">
+                <span class="level-info">关卡: <span id="levelNum">1</span></span>
+                <span class="move-count">步数: <span id="moveCount">0</span></span>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="640" height="480"></canvas>
+        
+        <div class="game-controls">
+            <div class="controls-info">
+                <p>方向键/WASD: 移动角色</p>
+                <p>空格键: 时间回溯</p>
+                <p>R键: 重置关卡</p>
+            </div>
+            <button id="resetBtn">重置关卡</button>
+            <button id="rewindBtn">时间回溯</button>
+        </div>
+        
+        <div class="level-complete" id="levelComplete">
+            <h2>关卡完成!</h2>
+            <p>恭喜你通过了第 <span id="completedLevel">1</span> 关</p>
+            <button id="nextLevelBtn">下一关</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>

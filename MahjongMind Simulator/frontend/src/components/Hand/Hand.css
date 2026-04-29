@@ -1,0 +1,67 @@
+.hand-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hand-bottom {
+  flex-direction: column;
+  gap: 16px;
+}
+
+.melds-container {
+  display: flex;
+  gap: 8px;
+}
+
+.meld-group {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.tiles-container {
+  display: flex;
+  gap: -8px;
+  padding: 8px;
+}
+
+.tiles-container > * {
+  margin-left: -12px;
+}
+
+.tiles-container > *:first-child {
+  margin-left: 0;
+}
+
+.tiles-container > *:hover {
+  z-index: 10;
+}
+
+.hand-top .tiles-container,
+.hand-left .tiles-container,
+.hand-right .tiles-container {
+  gap: -16px;
+}
+
+.hand-top,
+.hand-bottom {
+  justify-content: center;
+}
+
+.hand-left {
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+
+.hand-right {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.hand-left .tiles-container,
+.hand-right .tiles-container {
+  flex-direction: row-reverse;
+}

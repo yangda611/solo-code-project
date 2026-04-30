@@ -1,0 +1,72 @@
+<div class="problem-list-container">
+  <div class="header">
+    <h2 class="title">问题分析</h2>
+    <ng-container *ngIf="isScanning">
+      <div class="scanning-indicator">
+        <span class="scan-spinner"></span>
+        <span>扫描中...</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="summary">
+    <div class="summary-item error">
+      <span class="count">{{ getErrorCount() }}</span>
+      <span class="label">错误</span>
+    </div>
+    <div class="summary-item warning">
+      <span class="count">{{ getWarningCount() }}</span>
+      <span class="label">警告</span>
+    </div>
+    <div class="summary-item info">
+      <span class="count">{{ getInfoCount() }}</span>
+      <span class="label">提示</span>
+    </div>
+  </div>
+
+  <ng-container *ngIf="getTotalCount() === 0 && !isScanning">
+    <div class="empty-state">
+      <span class="empty-icon">✓</span>
+      <p>暂无问题</p>
+      <p class="empty-hint">点击"分析电路"按钮进行检测</p>
+    </div>
+  </ng-container>
+
+  <div class="problem-groups">
+    <ng-container *ngFor="let group of groupedProblems; trackBy: trackByGroupType">
+      <ng-container *ngIf="group.problems.length > 0">
+        <div class="problem-group">
+          <div 
+            class="group-header"
+            (click)="toggleGroup(group.type)">
+            <span class="group-icon">{{ group.icon }}</span>
+            <span class="group-name">{{ group.name }}</span>
+            <span class="group-count" [style.background]="group.color">{{ group.problems.length }}</span>
+            <span class="group-toggle" [class.expanded]="isGroupExpanded(group.type)">
+              ▼
+            </span>
+          </div>
+          
+          <ng-container *ngIf="isGroupExpanded(group.type)">
+            <div class="group-items">
+              <ng-container *ngFor="let problem of group.problems; trackBy: trackByProblemId">
+                <div class="problem-item" [class]="problem.severity">
+                  <div class="problem-header">
+                    <span class="severity-badge" [style.background]="getSeverityColor(problem.severity)">
+                      {{ getSeverityLabel(problem.severity) }}
+                    </span>
+                    <span class="problem-position">
+                      ({{ formatNumber(problem.position.x) }}, {{ formatNumber(problem.position.y) }})
+                    </span>
+                  </div>
+                  <p class="problem-message">{{ problem.message }}</p>
+                  <p class="problem-details">{{ problem.details }}</p>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

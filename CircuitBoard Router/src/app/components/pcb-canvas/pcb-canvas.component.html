@@ -1,0 +1,267 @@
+<div class="canvas-container" 
+     (keydown)="onKeyDown($event)"
+     tabindex="0">
+  <svg #svgCanvas
+       [attr.width]="pcbData.board.width + 100"
+       [attr.height]="pcbData.board.height + 100"
+       (mousedown)="onMouseDown($event)"
+       (mousemove)="onMouseMove($event)"
+       (mouseup)="onMouseUp($event)"
+       (dblclick)="onDoubleClick($event)"
+       class="pcb-svg">
+    
+    <defs>
+      <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+      </filter>
+      
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      
+      <pattern id="gridPattern" [attr.width]="pcbData.board.gridSize" [attr.height]="pcbData.board.gridSize" patternUnits="userSpaceOnUse">
+        <circle [attr.cx]="pcbData.board.gridSize / 2" [attr.cy]="pcbData.board.gridSize / 2" r="1" fill="rgba(255,255,255,0.1)"/>
+      </pattern>
+      
+      <linearGradient id="boardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" [attr.stopColor]="COLORS.board"/>
+        <stop offset="100%" [attr.stopColor]="'#064d1e'"/>
+      </linearGradient>
+      
+      <linearGradient id="traceGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" [attr.stopColor]="COLORS.trace" stop-opacity="0.8"/>
+        <stop offset="50%" [attr.stopColor]="COLORS.traceHighlight" stop-opacity="1"/>
+        <stop offset="100%" [attr.stopColor]="COLORS.trace" stop-opacity="0.8"/>
+      </linearGradient>
+    </defs>
+    
+    <g [attr.transform]="'translate(50, 50)'">
+      <rect 
+        class="board"
+        [attr.x]="0" 
+        [attr.y]="0" 
+        [attr.width]="pcbData.board.width" 
+        [attr.height]="pcbData.board.height"
+        fill="url(#boardGradient)"
+        stroke="#0a6b28"
+        stroke-width="3"/>
+      
+      <rect 
+        [attr.x]="0" 
+        [attr.y]="0" 
+        [attr.width]="pcbData.board.width" 
+        [attr.height]="pcbData.board.height"
+        fill="url(#gridPattern)"/>
+      
+      <g class="traces">
+        <ng-container *ngFor="let trace of pcbData.traces; trackBy: trackByTraceId">
+          <g class="trace-group" [class.selected]="trace.id === selectedTraceId">
+            <path 
+              [attr.d]="getPathD(trace.points)"
+              fill="none"
+              [attr.stroke]="getNetColor(trace.netId)"
+              [attr.stroke-width]="trace.width + 4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              opacity="0.3"/>
+            
+            <path 
+              [attr.d]="getPathD(trace.points)"
+              fill="none"
+              [attr.stroke]="getNetColor(trace.netId)"
+              [attr.stroke-width]="trace.width"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+          </g>
+        </ng-container>
+      </g>
+      
+      <ng-container *ngIf="isRouting && routingPath.length > 0">
+        <path 
+          class="routing-preview"
+          [attr.d]="getRoutingPreviewPath()"
+          fill="none"
+          stroke="#00ffff"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-dasharray="10,5"/>
+      </ng-container>
+      
+      <g class="components">
+        <ng-container *ngFor="let component of pcbData.components; trackBy: trackByComponentId">
+          <g class="component-group"
+             [class.selected]="component.id === selectedComponentId"
+             [class.dragging]="isDragging && dragComponent?.id === component.id">
+            
+            <rect 
+              [attr.x]="component.position.x"
+              [attr.y]="component.position.y"
+              [attr.width]="component.width"
+              [attr.height]="component.height"
+              [attr.fill]="getComponentColor(component.type).fill"
+              [attr.stroke]="getComponentColor(component.type).stroke"
+              stroke-width="2"
+              rx="4"
+              filter="url(#dropShadow)"/>
+            
+            <text 
+              [attr.x]="component.position.x + component.width / 2"
+              [attr.y]="component.position.y + component.height / 2"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="12"
+              font-weight="bold">
+              {{ component.name }}
+            </text>
+            
+            <g class="pins">
+              <ng-container *ngFor="let pin of component.pins; trackBy: trackByPinId">
+                <g class="pin">
+                  <circle 
+                    [attr.cx]="pin.position.x"
+                    [attr.cy]="pin.position.y"
+                    r="6"
+                    [attr.fill]="pin.netId ? COLORS.pinConnected : COLORS.pinUnconnected"
+                    stroke="white"
+                    stroke-width="1"/>
+                  
+                  <circle 
+                    [attr.cx]="pin.position.x"
+                    [attr.cy]="pin.position.y"
+                    r="3"
+                    fill="#333"/>
+                  
+                  <text 
+                    [attr.x]="getPinLabelX(pin, component)"
+                    [attr.y]="pin.position.y"
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    fill="white"
+                    font-size="10">
+                    {{ pin.label }}
+                  </text>
+                </g>
+              </ng-container>
+            </g>
+          </g>
+        </ng-container>
+      </g>
+      
+      <g class="problems">
+        <ng-container *ngFor="let problem of pcbData.problems; trackBy: trackByProblemId">
+          <g class="problem-indicator">
+            <circle 
+              [attr.cx]="problem.position.x"
+              [attr.cy]="problem.position.y"
+              r="15"
+              [attr.fill]="getProblemColor(problem.type)"
+              opacity="0.3"/>
+            
+            <text 
+              [attr.x]="problem.position.x"
+              [attr.y]="problem.position.y"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="14"
+              font-weight="bold">
+              !
+            </text>
+          </g>
+        </ng-container>
+      </g>
+      
+      <ng-container *ngIf="snapPoint">
+        <g class="snap-indicator">
+          <circle 
+            [attr.cx]="snapPoint.point.x"
+            [attr.cy]="snapPoint.point.y"
+            r="10"
+            fill="none"
+            stroke="#00ff88"
+            stroke-width="2"
+            stroke-dasharray="5,3"/>
+        </g>
+      </ng-container>
+      
+      <g class="animations">
+        <ng-container *ngFor="let entry of animationStateEntries; trackBy: trackByAnimationKey">
+          <ng-container *ngIf="entry[1].type === 'snap'">
+            <circle 
+              [attr.cx]="getAnimationPathX(entry[1])"
+              [attr.cy]="getAnimationPathY(entry[1])"
+              [attr.r]="10 + entry[1].progress * 20"
+              fill="none"
+              [attr.stroke]="entry[1].color || '#00ff88'"
+              stroke-width="3"
+              [attr.opacity]="1 - entry[1].progress"/>
+          </ng-container>
+          
+          <ng-container *ngIf="entry[1].type === 'current' && entry[1].path">
+            <g filter="url(#glow)">
+              <circle 
+                [attr.cx]="getCurrentFlowPosition(entry[1].progress, entry[1].path!).x"
+                [attr.cy]="getCurrentFlowPosition(entry[1].progress, entry[1].path!).y"
+                r="8"
+                [attr.fill]="entry[1].color || '#00ffff'"/>
+            </g>
+          </ng-container>
+          
+          <ng-container *ngIf="entry[1].type === 'spark' && entry[1].path">
+            <ng-container *ngFor="let particle of getSparkParticles(entry[1].progress, entry[1].path![0]); trackBy: trackByParticle">
+              <circle 
+                [attr.cx]="particle.x"
+                [attr.cy]="particle.y"
+                [attr.r]="particle.size"
+                [attr.fill]="particle.color"
+                [attr.opacity]="particle.opacity"/>
+            </ng-container>
+          </ng-container>
+          
+          <ng-container *ngIf="entry[1].type === 'scan'">
+            <rect 
+              [attr.x]="0"
+              [attr.y]="(entry[1].progress - 0.1) * pcbData.board.height"
+              [attr.width]="pcbData.board.width"
+              [attr.height]="0.2 * pcbData.board.height"
+              [attr.fill]="entry[1].color || '#00ffff'"
+              opacity="0.3"/>
+          </ng-container>
+          
+          <ng-container *ngIf="entry[1].type === 'complete'">
+            <g>
+              <circle 
+                [attr.cx]="pcbData.board.width / 2"
+                [attr.cy]="pcbData.board.height / 2"
+                [attr.r]="50 + entry[1].progress * 100"
+                fill="none"
+                [attr.stroke]="entry[1].color || '#22c55e'"
+                stroke-width="4"
+                [attr.opacity]="1 - entry[1].progress"/>
+              
+              <ng-container *ngIf="entry[1].progress > 0.5">
+                <text 
+                  [attr.x]="pcbData.board.width / 2"
+                  [attr.y]="pcbData.board.height / 2"
+                  text-anchor="middle"
+                  dominant-baseline="middle"
+                  fill="#22c55e"
+                  font-size="24"
+                  font-weight="bold"
+                  [attr.opacity]="(entry[1].progress - 0.5) * 2">
+                  ✓ 完成
+                </text>
+              </ng-container>
+            </g>
+          </ng-container>
+        </ng-container>
+      </g>
+    </g>
+  </svg>
+</div>

@@ -1,0 +1,48 @@
+<div class="toolbar-container">
+  <div class="toolbar-section">
+    <h3 class="section-title">工具</h3>
+    <div class="tools-grid">
+      <ng-container *ngFor="let tool of tools; trackBy: trackByToolId">
+        <button 
+          [class]="getToolClass(tool)"
+          (click)="selectTool(tool.id)"
+          [title]="tool.description">
+          <span class="tool-icon">{{ tool.icon }}</span>
+          <span class="tool-name">{{ tool.name }}</span>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="toolbar-section">
+    <h3 class="section-title">操作</h3>
+    <div class="actions-grid">
+      <button class="action-button analyze" (click)="onAnalyze()" title="分析电路问题">
+        <span class="tool-icon">🔍</span>
+        <span class="tool-name">分析电路</span>
+      </button>
+      <button class="action-button clear" (click)="onClear()" title="清空所有内容">
+        <span class="tool-icon">🗑️</span>
+        <span class="tool-name">清空</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="toolbar-section help-section">
+    <h3 class="section-title">快捷键</h3>
+    <div class="help-content">
+      <div class="shortcut-item">
+        <kbd>Delete</kbd>
+        <span>删除选中</span>
+      </div>
+      <div class="shortcut-item">
+        <kbd>Esc</kbd>
+        <span>取消选择</span>
+      </div>
+      <div class="shortcut-item">
+        <kbd>双击</kbd>
+        <span>删除元件</span>
+      </div>
+    </div>
+  </div>
+</div>

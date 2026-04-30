@@ -1,0 +1,109 @@
+.canvas-container {
+  flex: 1;
+  overflow: auto;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  outline: none;
+}
+
+.pcb-svg {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  cursor: crosshair;
+}
+
+.component-group {
+  cursor: move;
+  transition: transform 0.1s ease-out;
+
+  &.selected {
+    rect {
+      stroke: #3b82f6 !important;
+      stroke-width: 3 !important;
+    }
+  }
+
+  &.dragging {
+    opacity: 0.8;
+    filter: url(#dropShadow);
+  }
+
+  &:hover {
+    rect {
+      filter: url(#glow);
+    }
+  }
+}
+
+.trace-group {
+  cursor: pointer;
+  
+  &.selected {
+    path {
+      stroke: #00ffff !important;
+    }
+  }
+  
+  &:hover {
+    path {
+      filter: url(#glow);
+    }
+  }
+}
+
+.pin {
+  cursor: crosshair;
+  
+  circle {
+    transition: all 0.2s ease;
+  }
+  
+  &:hover circle:first-child {
+    r: 8;
+    filter: url(#glow);
+  }
+}
+
+.routing-preview {
+  animation: dash 0.5s linear infinite;
+  filter: url(#glow);
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -15;
+  }
+}
+
+.problem-indicator {
+  animation: pulse 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.snap-indicator {
+  animation: rotate 2s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotate {
+  from {
+    transform-origin: center;
+    transform: rotate(0deg);
+  }
+  to {
+    transform-origin: center;
+    transform: rotate(360deg);
+  }
+}

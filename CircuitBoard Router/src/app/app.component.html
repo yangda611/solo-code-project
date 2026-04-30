@@ -1,0 +1,38 @@
+<div class="app-container">
+  <header class="app-header">
+    <div class="header-content">
+      <h1 class="app-title">
+        <span class="title-icon">🔌</span>
+        <span>{{ title }}</span>
+      </h1>
+      <app-preset-selector (presetSelected)="loadPreset($event)"></app-preset-selector>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <app-toolbar 
+      [selectedTool]="currentTool"
+      (toolChange)="onToolChange($event)"
+      (analyzeClick)="onAnalyze()"
+      (clearClick)="onClear()">
+    </app-toolbar>
+
+    <div class="canvas-wrapper">
+      <app-pcb-canvas [toolMode]="currentTool"></app-pcb-canvas>
+    </div>
+
+    <app-problem-list [isScanning]="isAnalyzing"></app-problem-list>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>PCB 电路布线工具 - 使用 Angular + SVG + Web Worker 开发</p>
+      <div class="feature-badges">
+        <span class="badge">✓ 元件拖拽</span>
+        <span class="badge">✓ 自动吸附</span>
+        <span class="badge">✓ 问题检测</span>
+        <span class="badge">✓ 动画效果</span>
+      </div>
+    </div>
+  </footer>
+</div>

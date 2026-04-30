@@ -1,0 +1,14 @@
+<div class="preset-selector-container">
+  <h3 class="section-title">预设电路</h3>
+  <div class="presets-grid">
+    <ng-container *ngFor="let preset of presets; trackBy: trackByPresetType">
+      <button 
+        class="preset-button"
+        (click)="selectPreset(preset.type)"
+        [title]="preset.description">
+        <span class="preset-icon">{{ preset.icon }}</span>
+        <span class="preset-name">{{ preset.name }}</span>
+      </button>
+    </ng-container>
+  </div>
+</div>

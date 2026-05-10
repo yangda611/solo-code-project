@@ -1,0 +1,21 @@
+{
+  "name": "fossil-excavation-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "babylonjs": "^6.48.0",
+    "@babylonjs/core": "^6.48.0",
+    "@babylonjs/loaders": "^6.48.0",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.1.0"
+  }
+}

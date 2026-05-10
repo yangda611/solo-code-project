@@ -1,0 +1,26 @@
+{
+  "name": "deep-sea-submersible-simulator",
+  "version": "1.0.0",
+  "description": "深海潜水器耐压舱体结构设计与压力分析系统",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "node server/index.js",
+    "install:all": "npm install && cd client && npm install"
+  },
+  "keywords": ["threejs", "react", "nodejs", "express", "sqlite"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "sqlite3": "^5.1.7",
+    "mathjs": "^12.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

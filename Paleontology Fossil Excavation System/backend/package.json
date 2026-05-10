@@ -1,0 +1,19 @@
+{
+  "name": "fossil-excavation-backend",
+  "version": "1.0.0",
+  "description": "虚拟古生物化石发掘系统后端",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.26.0",
+    "@fastify/cors": "^9.0.1",
+    "sql.js": "^1.10.3",
+    "mathjs": "^12.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

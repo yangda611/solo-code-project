@@ -1,0 +1,242 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  padding: 15px 30px;
+  border-bottom: 2px solid #0f3460;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  color: #e94560;
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+}
+
+.app-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 320px;
+  background: #16213e;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #0f3460;
+}
+
+.sidebar-section {
+  margin-bottom: 25px;
+}
+
+.sidebar-section h3 {
+  color: #e94560;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  border-bottom: 1px solid #0f3460;
+  padding-bottom: 8px;
+}
+
+.control-group {
+  margin-bottom: 15px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.control-group input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: #0f3460;
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #e94560;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.control-group select {
+  width: 100%;
+  padding: 8px 12px;
+  background: #0f3460;
+  border: 1px solid #1a1a2e;
+  border-radius: 4px;
+  color: #eee;
+  font-size: 0.9rem;
+}
+
+.value-display {
+  color: #e94560;
+  font-weight: bold;
+  float: right;
+}
+
+.preset-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.preset-btn {
+  padding: 12px 8px;
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+  border: 1px solid #e94560;
+  border-radius: 6px;
+  color: #eee;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.preset-btn:hover {
+  background: #e94560;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+}
+
+.load-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #e94560 0%, #c73e54 100%);
+  color: white;
+}
+
+.action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+}
+
+.action-btn.secondary {
+  background: #0f3460;
+  color: #eee;
+  border: 1px solid #1a1a2e;
+}
+
+.action-btn.secondary:hover {
+  background: #16213e;
+}
+
+.main-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.canvas-container {
+  flex: 1;
+  position: relative;
+}
+
+#babylon-canvas {
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.chart-panel {
+  height: 200px;
+  background: #16213e;
+  border-top: 2px solid #0f3460;
+  padding: 15px;
+  display: flex;
+  gap: 20px;
+}
+
+.chart-container {
+  flex: 1;
+  position: relative;
+}
+
+.chart-container h4 {
+  color: #e94560;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}
+
+.legend-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(22, 33, 62, 0.9);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #0f3460;
+  font-size: 0.8rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.status-bar {
+  background: #0f3460;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.status-item span {
+  color: #e94560;
+  font-weight: bold;
+}

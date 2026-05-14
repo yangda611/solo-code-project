@@ -1,0 +1,27 @@
+{
+  "name": "textile-yarn-mechanics-simulator",
+  "version": "1.0.0",
+  "description": "机织物细观结构力学响应分析系统",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "node --watch backend/server.js",
+    "dev:client": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@babylonjs/core": "^6.40.0",
+    "@babylonjs/loaders": "^6.40.0",
+    "vue": "^3.4.0",
+    "chart.js": "^4.4.0",
+    "vue-chartjs": "^5.3.0",
+    "fastify": "^4.25.0",
+    "@fastify/cors": "^8.5.0",
+    "@fastify/static": "^6.12.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0",
+    "concurrently": "^8.2.0"
+  }
+}

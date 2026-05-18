@@ -1,0 +1,27 @@
+{
+  "name": "hp-protein-folding-visualizer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "nuxt": "^3.11.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0",
+    "three": "^0.160.0",
+    "@types/three": "^0.160.0",
+    "chart.js": "^4.4.0",
+    "zustand": "^4.5.0",
+    "idb": "^8.0.0",
+    "gsap": "^3.12.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.11.0",
+    "typescript": "^5.4.0"
+  }
+}

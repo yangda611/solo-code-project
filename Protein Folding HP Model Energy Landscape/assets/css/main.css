@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-space-dark text-white font-roboto-mono;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  html {
+    @apply bg-space-dark;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-glass-bg backdrop-blur-md border border-glass-border rounded-lg;
+  }
+
+  .control-slider {
+    @apply w-full h-2 bg-space-blue rounded-lg appearance-none cursor-pointer;
+  }
+
+  .control-slider::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-bio-blue shadow-glow-blue cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply px-4 py-2 bg-bio-blue hover:bg-blue-600 text-white rounded-lg transition-all duration-300 font-medium shadow-glow-blue;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-space-blue hover:bg-space-blue/80 text-bio-blue border border-bio-blue/50 rounded-lg transition-all duration-300;
+  }
+
+  .preset-btn {
+    @apply px-3 py-2 bg-glass-bg border border-glass-border rounded-lg text-sm transition-all duration-300 hover:border-bio-blue hover:shadow-glow-blue;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #1e88e5, #76ff03);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-space-blue;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-bio-blue rounded-full;
+  }
+}

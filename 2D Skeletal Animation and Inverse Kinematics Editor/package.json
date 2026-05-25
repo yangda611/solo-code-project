@@ -1,0 +1,14 @@
+{
+  "name": "2d-skeletal-animation-editor",
+  "version": "1.0.0",
+  "description": "2D Skeletal Animation and Inverse Kinematics Editor",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/index.js",
+    "client": "cd client && npm run serve",
+    "install-all": "npm install && cd client && npm install"
+  },
+  "keywords": ["skeletal", "animation", "ik", "ccd", "fabrik"],
+  "author": "",
+  "license": "MIT"
+}

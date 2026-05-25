@@ -1,0 +1,12 @@
+{
+  "name": "2d-ray-tracing-editor",
+  "version": "1.0.0",
+  "description": "2D Ray Tracing Reflection Path Editor",
+  "scripts": {
+    "install-all": "cd server && npm install && cd ../client && npm install",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "dev": "start cmd /k \"cd server && npm start\" && timeout 5 && cd client && npm start"
+  },
+  "keywords": ["ray-tracing", "2d", "reflection", "physics"]
+}

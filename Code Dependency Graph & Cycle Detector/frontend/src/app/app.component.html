@@ -1,0 +1,145 @@
+<div class="app-container">
+  <div class="header">
+    <h1>模块依赖分析器</h1>
+    <p>基于 Tarjan 算法的强连通分量检测与可视化系统</p>
+  </div>
+
+  <div class="main-content">
+    <!-- 左侧面板 -->
+    <div class="panel">
+      <h2>📥 输入</h2>
+      
+      <div class="form-group">
+        <label>预设用例：</label>
+        <div class="preset-list">
+          <div 
+            *ngFor="let preset of presets" 
+            class="preset-item"
+            (click)="loadPreset(preset.id)">
+            <h4>{{ preset.name }}</h4>
+            <p>{{ preset.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>伪代码输入 (格式: A -> B):</label>
+        <textarea 
+          [(ngModel)]="pseudocode" 
+          rows="10"
+          placeholder="A -> B
+A -> C
+B -> D"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>动态导入模块 (逗号分隔):</label>
+        <input 
+          type="text" 
+          [(ngModel)]="dynamicNodesInput"
+          placeholder="DynamicModule, PluginA">
+      </div>
+
+      <button class="btn btn-primary" (click)="parsePseudocode()">
+        🔍 解析并分析
+      </button>
+      
+      <button class="btn btn-secondary" (click)="saveSnapshot('当前快照')">
+        💾 保存快照
+      </button>
+
+      <div *ngIf="analysisResult" class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">{{ analysisResult.performance.nodeCount }}</div>
+          <div class="stat-label">模块数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ analysisResult.performance.edgeCount }}</div>
+          <div class="stat-label">依赖边数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ analysisResult.performance.sccCount }}</div>
+          <div class="stat-label">强连通分量</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ analysisResult.performance.cycleCount }}</div>
+          <div class="stat-label">循环数</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 中间图表面板 -->
+    <div class="panel" style="min-width: 600px;">
+      <h2>📊 依赖图可视化</h2>
+      
+      <div class="animation-controls">
+        <button class="btn btn-secondary anim-btn" (click)="playPulseAnimation()">
+          💓 节点脉冲
+        </button>
+        <button class="btn btn-secondary anim-btn" (click)="playWaterfallAnimation()">
+          🌊 瀑布动画
+        </button>
+        <button class="btn btn-secondary anim-btn" (click)="resetGraph()">
+          🔄 重置样式
+        </button>
+      </div>
+
+      <div class="graph-container" #graphContainer style="min-height: 500px; margin-top: 20px;"></div>
+
+      <div *ngIf="analysisResult" style="margin-top: 20px;">
+        <h3 style="color: #00d4ff; margin-bottom: 10px;">拓扑排序顺序:</h3>
+        <div class="top-order">
+          <span *ngFor="let node of analysisResult.topologicalOrder" class="top-order-item">
+            {{ node }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧面板 -->
+    <div class="panel">
+      <h2>⚠️ 检测结果</h2>
+
+      <div *ngIf="getIssues().length > 0">
+        <div class="issue-alert" *ngFor="let issue of getIssues()">
+          <p>🚨 {{ issue }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="analysisResult && analysisResult.stronglyConnectedComponents.length > 0" style="margin-top: 20px;">
+        <h3 style="color: #7b2ff7; margin-bottom: 10px;">强连通分量:</h3>
+        <div class="scc-list">
+          <div 
+            class="scc-item" 
+            *ngFor="let scc of analysisResult.stronglyConnectedComponents"
+            (click)="playSccCollapse(scc)">
+            <span class="scc-nodes">{{ scc.join(' ↔ ') }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="analysisResult && analysisResult.cycles.length > 0" style="margin-top: 20px;">
+        <h3 style="color: #ff4757; margin-bottom: 10px;">检测到的循环:</h3>
+        <div class="cycle-item" *ngFor="let cycle of analysisResult.cycles" (click)="playCycleHighlight(cycle.path)">
+          <strong>{{ cycle.type === 'self_loop' ? '🔄 自环依赖' : '🔗 循环依赖' }}</strong>
+          <div class="cycle-path">{{ cycle.path.join(' → ') }}</div>
+        </div>
+      </div>
+
+      <div *ngIf="analysisResult && analysisResult.recommendations.length > 0" style="margin-top: 20px;">
+        <h3 style="color: #4ecdc4; margin-bottom: 10px;">破环建议:</h3>
+        <div class="recommendation-item" *ngFor="let rec of analysisResult.recommendations">
+          <h4>{{ rec.suggestion }}</h4>
+          <p>影响节点: {{ rec.affectedNodes.join(', ') }}</p>
+          <span class="impact-score">影响评分: {{ (rec.impactScore * 100).toFixed(0) }}%</span>
+          <button 
+            class="btn btn-danger" 
+            style="margin-top: 10px; padding: 8px 16px; font-size: 0.85rem;"
+            (click)="breakCycle(rec.edge)">
+            ✂️ 执行断开
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

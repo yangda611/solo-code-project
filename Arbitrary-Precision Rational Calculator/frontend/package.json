@@ -1,0 +1,23 @@
+{
+  "name": "continued-fraction-frontend",
+  "version": "1.0.0",
+  "description": "Qwik frontend for continued fraction calculator",
+  "scripts": {
+    "dev": "vite --mode ssr",
+    "build": "vite build --mode ssr",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@builder.io/qwik": "^1.4.5",
+    "@builder.io/qwik-city": "^1.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.6",
+    "typescript": "5.3.3",
+    "vite": "^5.0.12",
+    "vite-tsconfig-paths": "^4.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

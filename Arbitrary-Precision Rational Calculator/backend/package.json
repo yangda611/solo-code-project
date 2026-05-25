@@ -1,0 +1,23 @@
+{
+  "name": "continued-fraction-backend",
+  "version": "1.0.0",
+  "description": "Fastify backend for continued fraction calculator",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.26.0",
+    "@fastify/cors": "^9.0.1",
+    "better-sqlite3": "^9.4.3",
+    "big-integer": "^1.6.52"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/better-sqlite3": "^7.6.9",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "ray-tracing-server",
+  "version": "1.0.0",
+  "description": "2D Ray Tracing Reflection Path Editor - Backend",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "better-sqlite3": "^9.2.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

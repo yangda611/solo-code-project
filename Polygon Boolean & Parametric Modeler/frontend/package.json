@@ -1,0 +1,17 @@
+{
+  "name": "polygon-boolean-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for polygon boolean operations",
+  "scripts": {
+    "dev": "node ./node_modules/vite/bin/vite.js",
+    "build": "node ./node_modules/vite/bin/vite.js build",
+    "preview": "node ./node_modules/vite/bin/vite.js preview"
+  },
+  "dependencies": {
+    "solid-js": "^1.7.11"
+  },
+  "devDependencies": {
+    "vite": "^4.4.9",
+    "vite-plugin-solid": "^2.7.0"
+  }
+}
